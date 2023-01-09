@@ -1,7 +1,7 @@
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.pathplanner.lib.PathConstraints;
@@ -20,7 +20,7 @@ public class AutoCommands {
 
     private final Swerve swerve;
     public final Map<String, SequentialCommandGroup> autos;
-    public final HashMap<String, Command> eventMap;
+    public final Map<String, Command> eventMap;
     private SwerveAutoBuilder autoBuilder;
 
     //Example Multi-Path
@@ -39,7 +39,7 @@ public class AutoCommands {
         ));
         
         //Barrel Racing/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ArrayList<PathPlannerTrajectory> barrel = PathPlanner.loadPathGroup("barrel", new PathConstraints(4, 3));
+        List<PathPlannerTrajectory> barrel = PathPlanner.loadPathGroup("barrel", new PathConstraints(4, 3));
         autos.put("Barrel", new SequentialCommandGroup(
             getCommand(barrel)
         ));
@@ -47,7 +47,7 @@ public class AutoCommands {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Slalom////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ArrayList<PathPlannerTrajectory> slalom = PathPlanner.loadPathGroup("slalom", new PathConstraints(4, 3));
+        List<PathPlannerTrajectory> slalom = PathPlanner.loadPathGroup("slalom", new PathConstraints(4, 3));
         autos.put("Slalom", new SequentialCommandGroup(
             getCommand(slalom)
         ));
@@ -55,7 +55,7 @@ public class AutoCommands {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Bounce////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ArrayList<PathPlannerTrajectory> bounce = PathPlanner.loadPathGroup("bounce", new PathConstraints(4, 3));
+        List<PathPlannerTrajectory> bounce = PathPlanner.loadPathGroup("bounce", new PathConstraints(4, 3));
         autos.put("Bounce", new SequentialCommandGroup(
             getCommand(bounce)
         ));
@@ -63,7 +63,7 @@ public class AutoCommands {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //5 Ball////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ArrayList<PathPlannerTrajectory> fiveBall = PathPlanner.loadPathGroup("5Ball", new PathConstraints(4, 3));
+        List<PathPlannerTrajectory> fiveBall = PathPlanner.loadPathGroup("5Ball", new PathConstraints(4, 3));
         autos.put("5 Ball", new SequentialCommandGroup(
             getCommand(fiveBall)
         ));
@@ -84,7 +84,7 @@ public class AutoCommands {
 
     }
 
-    private Command getCommand(ArrayList<PathPlannerTrajectory>pathGroup) {                
+    private Command getCommand(List<PathPlannerTrajectory>pathGroup) {                
         
         autoBuilder = new SwerveAutoBuilder(
             swerve::getPose,
