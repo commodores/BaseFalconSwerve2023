@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
@@ -16,23 +17,32 @@ public final class Constants {
         public static final int pigeonID = 13;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
+        public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(18.6875);
         public static final double wheelBase = Units.inchesToMeters(18.6875);
-        public static final double wheelDiameter = Units.inchesToMeters(3.94);
-        public static final double wheelCircumference = wheelDiameter * Math.PI;
+        public static final double wheelCircumference = chosenModule.wheelCircumference;
 
-        public static final double openLoopRamp = 0.25;
-        public static final double closedLoopRamp = 0.0;
-
-        public static final double driveGearRatio = 6.75; //6.75:1
-        public static final double angleGearRatio = (150.0 / 7.0); //12.8:1
-
-        public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+        /* Swerve Kinematics 
+         * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
+         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
                 new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
                 new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+
+        /* Module Gear Ratios */
+        public static final double driveGearRatio = chosenModule.driveGearRatio;
+        public static final double angleGearRatio = chosenModule.angleGearRatio;
+
+        /* Motor Inverts */
+        public static final boolean angleMotorInvert = chosenModule.angleMotorInvert;
+        public static final boolean driveMotorInvert = chosenModule.driveMotorInvert;
+
+        /* Angle Encoder Invert */
+        public static final boolean canCoderInvert = chosenModule.canCoderInvert;
 
         /* Swerve Current Limiting */
         public static final int angleContinuousCurrentLimit = 20;//25
@@ -45,11 +55,16 @@ public final class Constants {
         public static final double drivePeakCurrentDuration = 0;
         public static final boolean driveEnableCurrentLimit = true;
 
+         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
+         * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
+        public static final double openLoopRamp = 0.25;
+        public static final double closedLoopRamp = 0.0;
+
         /* Angle Motor PID Values */
-        public static final double angleKP = .15;//0.12;
-        public static final double angleKI = 0.0;
-        public static final double angleKD = 0.01;
-        public static final double angleKF = 0.0;
+        public static final double angleKP = chosenModule.angleKP;
+        public static final double angleKI = chosenModule.angleKI;
+        public static final double angleKD = chosenModule.angleKD;
+        public static final double angleKF = chosenModule.angleKF;
 
         /* Drive Motor PID Values */
         public static final double driveKP = 0.05;
@@ -72,13 +87,6 @@ public final class Constants {
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
         public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
-
-        /* Motor Inverts */
-        public static final boolean driveMotorInvert = false;
-        public static final boolean angleMotorInvert = true;
-
-        /* Angle Encoder Invert */
-        public static final boolean canCoderInvert = false;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
@@ -126,8 +134,8 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;//Swerve.maxAngularVelocity;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;//Swerve.maxAngularVelocity;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
         public static final double kPThetaController = 4; 
         public static final double kPXandYControllers = 2;
